@@ -3,97 +3,112 @@ import { useLocation, useNavigate } from "react-router-dom";
 import signInBg from "../../assets/images/login-bg.svg";
 import LoginForm from "../../components/LoginForm";
 import SignUpForm from "../../components/SignUpForm";
+import { signupUser } from "./helper";
+import { useDispatch } from "react-redux";
 
 // import SignUpForm from "../components/SignUpForm";
 
-// import { InputText } from "primereact/inputtext";
-
-const loginData = [
-  {
-    name: "phone",
-    placeholder: "Phone or email",
-    rules: {
-      required: "Phone or email is required",
-    },
-    type: "text",
-  },
-  {
-    name: "password",
-    placeholder: "Password",
-    rules: {
-      required: "Password is required",
-    },
-    type: "password",
-  },
-];
-
-const signUpData = [
-  {
-    name: "firstName",
-    placeholder: "First name",
-    rules: {
-      required: "First name is required",
-    },
-    type: "text",
-  },
-  {
-    name: "lastName",
-    placeholder: "Last name",
-    rules: {
-      required: "Last name is required",
-    },
-    type: "text",
-  },
-  {
-    name: "email",
-    placeholder: "Email",
-    rules: {
-      required: "Email is required",
-      pattern: {
-        value: /^\S+@\S+$/i,
-        message: "Invalid email format",
-      },
-    },
-    type: "text",
-  },
-  {
-    name: "phone",
-    placeholder: "Phone or email",
-    rules: {
-      required: "Phone or email is required",
-    },
-    type: "text",
-  },
-  {
-    name: "password",
-    placeholder: "Password",
-    rules: {
-      required: "Password is required",
-    },
-    type: "password",
-  },
-  {
-    name: "confirmPassword",
-    placeholder: "Confirm password",
-    rules: {
-      required: "Confirm password is required",
-    },
-    type: "password",
-  },
-];
-
 const Login = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const currentUrl = location.pathname;
   const navigate = useNavigate();
 
+  const loginData = [
+    {
+      name: "phone",
+      placeholder: "Phone or email",
+      rules: {
+        required: "Phone or email is required",
+      },
+      type: "text",
+    },
+    {
+      name: "password",
+      placeholder: "Password",
+      rules: {
+        required: "Password is required",
+      },
+      type: "password",
+    },
+  ];
+
+  const signUpData = [
+    {
+      name: "firstName",
+      placeholder: "First name",
+      rules: {
+        required: "First name is required",
+      },
+      type: "text",
+    },
+    {
+      name: "lastName",
+      placeholder: "Last name",
+      rules: {
+        required: "Last name is required",
+      },
+      type: "text",
+    },
+    {
+      name: "email",
+      placeholder: "Email",
+      rules: {
+        required: "Email is required",
+        pattern: {
+          value: /^\S+@\S+$/i,
+          message: "Invalid email format",
+        },
+      },
+      type: "text",
+    },
+    {
+      name: "phone",
+      placeholder: "Phone or email",
+      rules: {
+        required: "Phone or email is required",
+      },
+      type: "text",
+    },
+    {
+      name: "password",
+      placeholder: "Password",
+      rules: {
+        required: "Password is required",
+      },
+      type: "password",
+    },
+    {
+      name: "confirmPassword",
+      placeholder: "Confirm password",
+      rules: {
+        required: "Confirm password is required",
+      },
+      type: "password",
+    },
+  ];
+
+  const signUp = async ({ data }) => {
+    await signupUser(data, dispatch).then((response) => {
+      if (!response.success) {
+        console.log("HERE", data);
+      } else {
+        console.log("HERE", data);
+      }
+    });
+  };
+
   const getComponent = () => {
     if (currentUrl.includes("signin")) {
       return (
-        <LoginForm loginData={loginData} navigateToPage={navigateToPage} />
+        <LoginForm
+          loginData={loginData}
+          navigateToPage={navigateToPage}
+          onSubmit={signUp}
+        />
       );
     } else if (currentUrl.includes("signup")) {
-      return <SignUpForm signUpData={signUpData} />;
+      return <SignUpForm signUpData={signUpData} onSubmit={signUp} />;
     }
   };
 

@@ -3,13 +3,11 @@ import { useForm, Controller } from "react-hook-form";
 // import { classNames } from "primereact/utils";
 // import { InputText } from "primereact/inputtext";
 
-const LoginForm = ({ loginData, navigateToPage }) => {
+const LoginForm = ({ loginData, navigateToPage, onSubmit }) => {
   const defaultValues = {
     password: "",
-    confirmPassword: "",
-    firstName: "",
-    email: "",
-    phoneNumber: "",
+
+    phone: "",
   };
   const {
     handleSubmit,
@@ -17,9 +15,9 @@ const LoginForm = ({ loginData, navigateToPage }) => {
     formState: { errors },
   } = useForm({ defaultValues });
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  // const onSubmit = (data) => {
+  //   console.log(data);
+  // };
 
   const getFormElement = () => {
     return loginData.map((item, index) => (
